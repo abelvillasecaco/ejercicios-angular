@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { ProductService, Product } from '../../services/product';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { ProductService, Product } from '../../services/product';
 
 @Component({
   selector: 'app-product-list',
+  standalone: true,
   imports: [CommonModule, RouterModule],
-  templateUrl: './product-list.html',
-  styleUrl: './product-list.css',
+  templateUrl: './product-list.html'
 })
 export class ProductList {
   products: Product[];

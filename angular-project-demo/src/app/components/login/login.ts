@@ -5,9 +5,9 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
+  standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './login.html',
-  styleUrl: './login.css',
 })
 export class Login {
   username = '';
@@ -16,7 +16,7 @@ export class Login {
   constructor(private router: Router) {}
 
   login() {
-    if(this.username === 'admin' && this.password === '1234') {
+    if (this.username === 'admin' && this.password === '1234') {
       localStorage.setItem('token', 'fake-jwt-token');
       this.router.navigate(['/products']);
     } else {
