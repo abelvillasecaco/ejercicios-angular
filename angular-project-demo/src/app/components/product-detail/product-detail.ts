@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ProductService, Product } from '../../services/product';
+import { Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-product-detail',
@@ -29,3 +30,5 @@ export class ProductDetail {
     }
   }
 }
+
+
