@@ -1,0 +1,13 @@
+<h2>Detalle del producto</h2>
+
+<div *ngIf="product; else notFound">
+  <p>ID: {{ product.id }}</p>
+  <p>Nombre: {{ product.name }}</p>
+  <p>Precio: {{ product.price | currency: 'PEN' }}</p>
+  <a routerLink="/products">Volver al listado</a>
+</div>
+
+<ng-template #notFound>
+  <p>Producto no encontrado</p>
+  <a routerLink="/products">Volver al listado</a>
+</ng-template>
