@@ -1,0 +1,21 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+  <div>
+    <label>Username: </label>
+    <input formControlName="username">
+
+    @if (usernameControl?.touched || usernameControl?.dirty) {
+      @if (usernameControl?.errors?.['required']) {
+        <small>El usuario es obligatorio</small>
+      }
+      @if (usernameControl?.errors?.['minlength']) {
+        <small>
+          Mínimo {{usernameControl?.errors?.['minlength'].requiredLength}} caracteres.
+          (tienes {{usernameControl?.errors?.['minlength'].actualLength}})
+        </small>
+      }
+      @if (usernameControl?.errors?.['pattern']) {
+        <small>El usuario solo puede contener caracteres alfanuméricos</small>
+      }
+    }
+  </div>
+</form>
