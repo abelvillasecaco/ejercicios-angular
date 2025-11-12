@@ -15,21 +15,70 @@ export class BudgetForm {
     this.budgetForm = this.fb.group({
       owner: new FormControl('', [Validators.required, Validators.minLength(3)]),
       month: new FormControl('', Validators.required),
-      expenses: this.fb.array([this.createExpesesGroup()])
+      expenses: this.fb.array([this.createExpensesGroup()]),
     });
   }
 
-  private createExpesesGroup(): FormGroup {
+  private createExpensesGroup(): FormGroup {
     return this.fb.group({
       id: this.gerenateId(),
       decription: new FormControl('', Validators.required),
       amount: new FormControl(0, [Validators.required, Validators.min(0.01)]),
-      category: new FormControl('')
+      category: new FormControl(''),
     });
   }
 
   private gerenateId(): FormControl {
     const uid = `${Date.now().toString(36)}-${Math.floor(Math.random() * 1e6).toString(36)}`;
     return new FormControl(uid);
+  }
+
+  get expenses(): FormArray {
+    return this.budgetForm.get('expenses') as FormArray;
+  }
+
+  addExpense() {
+    this.expenses.push(this.createExpensesGroup());
+  }
+
+  removeExpense(index: number) {
+    if (this.expenses.length > 1) {
+      this.expenses.removeAt(index);
+    } else {
+      const g = this.expenses.at(0) as FormGroup;
+      g.patchValue({ description: '', amount: 0, category: '' });
+    }
+  }
+
+  getTotal(): number {
+    return this.expenses.controls.reduce((sum, grp) => {
+      const val = grp.get('amount')?.value;
+      return sum + (Number(val) || 0);
+    }, 0);
+  }
+
+  submitted = signal(false);
+
+  onSubmit() {
+    if (this.budgetForm.invalid) {
+      this.budgetForm.markAllAsTouched();
+      this.submitted.set(false);
+      return;
+    }
+
+    this.submitted.set(true);
+
+    console.log('Budget guardad: ', this.budgetForm.value);
+    // this.budgetForm.reset();
+    // this.expenses.clear();
+    // this.expenses.push(this.createExpensesGroup());
+  }
+
+  control(path: string) {
+    return this.budgetForm.get(path) as FormControl;
+  }
+
+  expenseControl(i: number, name: string) {
+    return (this.expenses.at(i) as FormGroup).get(name) as FormControl;
   }
 }
