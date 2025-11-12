@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, FormArray, FormControl, Validators, Form } from '@angular/forms';
-import { CommonModule } from '@angular/common'; // *ngFor, *ngIf => Control Flow @if @for @switch
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-budget-form',
@@ -21,14 +21,14 @@ export class BudgetForm {
 
   private createExpensesGroup(): FormGroup {
     return this.fb.group({
-      id: this.gerenateId(),
-      decription: new FormControl('', Validators.required),
+      id: this.generateId(),
+      description: new FormControl('', Validators.required),
       amount: new FormControl(0, [Validators.required, Validators.min(0.01)]),
       category: new FormControl(''),
     });
   }
 
-  private gerenateId(): FormControl {
+  private generateId(): FormControl {
     const uid = `${Date.now().toString(36)}-${Math.floor(Math.random() * 1e6).toString(36)}`;
     return new FormControl(uid);
   }
@@ -46,7 +46,7 @@ export class BudgetForm {
       this.expenses.removeAt(index);
     } else {
       const g = this.expenses.at(0) as FormGroup;
-      g.patchValue({ description: '', amount: 0, category: '' });
+      g.patchValue({ decription: '', amount: 0, category: '' });
     }
   }
 
@@ -62,13 +62,13 @@ export class BudgetForm {
   onSubmit() {
     if (this.budgetForm.invalid) {
       this.budgetForm.markAllAsTouched();
-      this.submitted.set(false);
+      this.submitted.set(false); // Asegura que el JSON no se muestre si hay errores
       return;
     }
 
     this.submitted.set(true);
 
-    console.log('Budget guardad: ', this.budgetForm.value);
+    console.log('Budget saved: ', this.budgetForm.value);
     // this.budgetForm.reset();
     // this.expenses.clear();
     // this.expenses.push(this.createExpensesGroup());
