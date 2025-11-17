@@ -12,26 +12,45 @@ export class RegistroForm {
 
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
-      username: ['', {
-        validators: [Validators.required, Validators.minLength(3), Validators.pattern('^[a-zA-Z0-9]+$')],
-        updateOn: 'blur'
-      }],
-      email: ['', {
-        validators: [Validators.required, Validators.email],
-        updateOn: 'blur'
-      }],
-      password: ['', {
-        validators: [Validators.required, Validators.minLength(8)],
-        updateOn: 'blur'
-      }],
-      age: ['', {
-        validators: [Validators.min(14), Validators.max(100)],
-        updateOn: 'blur'
-      }],
-      acceptTerms: [false, {
-        validators: [Validators.requiredTrue],
-        updateOn: 'blur'
-      }],
+      username: [
+        '',
+        {
+          validators: [
+            Validators.required,
+            Validators.minLength(3),
+            Validators.pattern('^[a-zA-Z0-9]+$'),
+          ],
+          updateOn: 'blur',
+        },
+      ],
+      email: [
+        '',
+        {
+          validators: [Validators.required, Validators.email],
+          updateOn: 'blur',
+        },
+      ],
+      password: [
+        '',
+        {
+          validators: [Validators.required, Validators.minLength(8)],
+          updateOn: 'blur',
+        },
+      ],
+      age: [
+        '',
+        {
+          validators: [Validators.min(14), Validators.max(120)],
+          updateOn: 'blur',
+        },
+      ],
+      acceptTerms: [
+        false,
+        {
+          validators: [Validators.requiredTrue],
+          updateOn: 'blur',
+        },
+      ],
     });
   }
 
