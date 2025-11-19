@@ -1,0 +1,24 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+  <div>
+    <label>Nombre: </label>
+    <input type="text" formControlName="fullName" placeholder="Ej. Abel Villaseca">
+    @if (fullName?.touched || fullName?.dirty) {
+      @if (fullName?.errors?.['required']) {
+        <small class="error">El nombre es obligatorio.</small>
+      }
+      @if (fullName?.errors?.['minlength']) {
+        <small class="error">Mínimo {{ fullName?.errors?.['minlength'].requiredLength }} caracteres (tienes {{ fullName?.errors?.['minlength'].actualLength }})</small>
+      }
+    }
+    @if (emailSuggestions.length > 0) {
+      <div class="suggestions">
+        <small>Sugerencias de email: </small>
+        <ul>
+          @for (s of emailSuggestions; track s){
+            <li class="hint" (click)="form.get('email')?.setValue(s)">{{ s }}</li>
+          }
+        </ul>
+      </div>
+    }
+  </div>
+</form>
