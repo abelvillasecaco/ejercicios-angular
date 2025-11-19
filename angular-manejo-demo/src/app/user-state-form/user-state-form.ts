@@ -4,20 +4,18 @@ import {
   FormBuilder,
   Validators,
   AbstractControl,
-  FormGroup,
   ValidationErrors,
+  FormGroup,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 
-// RxJS (Reactive Extensions for JavaScript)
-// Formularios reactivos, HTTP, eventos y manejo de estados
-
 @Component({
   selector: 'app-user-state-form',
+  standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './user-state-form.html',
-  styleUrl: './user-state-form.css',
+  styleUrls: ['./user-state-form.css'],
 })
 export class UserStateForm implements OnInit, OnDestroy {
   form!: FormGroup;
@@ -39,11 +37,15 @@ export class UserStateForm implements OnInit, OnDestroy {
         age: [null, [Validators.min(14), Validators.max(120)]],
         subscribe: [false],
       },
-      { Validators: this.passwordsMatchValidator }
+      { validators: this.passwordsMatchValidator }
     );
 
     this.form.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((value) => {
       this.liveValue = value;
+    });
+
+    this.form.statusChanges.pipe(takeUntil(this.destroy$)).subscribe((status) => {
+      this.liveStatus = status;
     });
 
     this.form
@@ -51,7 +53,7 @@ export class UserStateForm implements OnInit, OnDestroy {
       ?.valueChanges.pipe(debounceTime(300), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe((name) => {
         if (name && typeof name === 'string') {
-          const normalized = name.trim().toLocaleLowerCase().replace(/\s+/g, '.');
+          const normalized = name.trim().toLowerCase().replace(/\s+/g, '.');
           this.emailSuggestions = [`${normalized}@gmail.com`, `${normalized}@example.com`];
         } else {
           this.emailSuggestions = [];
@@ -62,7 +64,7 @@ export class UserStateForm implements OnInit, OnDestroy {
       .get('email')
       ?.valueChanges.pipe(debounceTime(400), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe((email) => {
-        console.log('Email changed (debounce): ', email);
+        console.log('Email changed (debounced):', email);
       });
   }
 
@@ -70,7 +72,7 @@ export class UserStateForm implements OnInit, OnDestroy {
     const pwd = control.get('password')?.value;
     const cpwd = control.get('confirmPassword')?.value;
     if (!pwd || !cpwd) return null;
-    return pwd === cpwd ? null : { passwordMismatch: true };
+    return pwd === cpwd ? null : { passwordsMismatch: true };
   }
 
   get fullName() {
@@ -98,8 +100,8 @@ export class UserStateForm implements OnInit, OnDestroy {
       return;
     }
 
-    console.log('FORM SUBMIT: ', this.form.value);
-    alert('Formulario válido, revisa la consola');
+    console.log('FORM SUBMIT ->', this.form.value);
+    alert('Formulario válido — revisa consola.');
   }
 
   ngOnDestroy() {
