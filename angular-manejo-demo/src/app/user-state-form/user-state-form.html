@@ -21,4 +21,66 @@
       </div>
     }
   </div>
+
+  <div>
+    <label>Email: </label>
+    <input type="email" formControlName="email" placeholder="tu@correo.com">
+    @if (email?.touched) {
+      @if (email?.errors?.['required']) {
+        <small class="error">El email es obligatorio.</small>
+      }
+      @if (email?.errors?.['email']) {
+        <small class="error">Introduce un email válido.</small>
+      }
+    }
+  </div>
+
+  <div>
+    <label>Password: </label>
+    <input type="password" formControlName="password" placeholder="Mínimo 8 caracteres">
+    @if (password?.touched) {
+      @if (password?.errors?.['required']) {
+        <small class="error">La contraseña es obligatoria.</small>
+      }
+      @if (password?.errors?.['minlength']) {
+        <small class="error">Debe tener al menos {{ password?.errors?.['minlength'].requiredLength }} caracteres.</small>
+      }
+    }
+  </div>
+
+  <div>
+    <label>Confirmar contraseña: </label>
+    <input type="password" formControlName="confirmPassword" placeholder="Repite la contraseña">
+    @if (confirmPassword?.touched) {
+      @if (confirmPassword?.errors?.['required']) {
+        <small class="error">Debes confirmar la contraseña.</small>
+      }
+      @if (password?.errors?.['passwordMismatch']) {
+        <small class="error">Las contraseñas no coinciden.</small>
+      }
+    }
+  </div>
+
+  <div>
+    <label>Edad (opcional): </label>
+    <input type="number" formControlName="age">
+    @if (age?.touched) {
+      @if (age?.errors?.['min']) {
+        <small class="error">Debes tener al menos {{ age?.errors?.['min'].min }} años.</small>
+      }
+      @if (age?.errors?.['max']) {
+        <small class="error">Las edad máxima es {{ age?.errors?.['max'].max }} años.</small>
+      }
+    }
+  </div>
+
+  <div class="checkbox-row">
+    <label>
+      <input type="checkbox" formControlName="subscribe">
+      Quiero recibir noticias
+    </label>
+  </div>
+
+  <button type="submit" [disabled]="form.invalid">Enviar</button>
 </form>
+
