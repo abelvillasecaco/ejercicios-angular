@@ -1,9 +1,0 @@
-<h2>Lista de Productos</h2>
-
-<ul>
-  <li *ngFor="let product of products">
-    <a [routerLink]="['/products', product.id]" [queryParams]="{ ref: 'listado' }">
-      {{ product.name }} - {{ product.price | currency }}
-    </a>
-  </li>
-</ul>
