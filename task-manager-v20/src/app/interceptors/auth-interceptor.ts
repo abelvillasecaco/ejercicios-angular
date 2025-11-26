@@ -3,7 +3,7 @@ import { catchError, throwError } from 'rxjs';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
-  console.log(`[Interceptor] Saliendo petición hacia: ${req.url}`);
+  console.log(`📡 [Interceptor] Saliendo petición hacia: ${req.url}`);
 
   const authReq = req.clone({
     setHeaders: {
@@ -13,12 +13,12 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   });
 
   return next(authReq).pipe(
+
     catchError((err: HttpErrorResponse) => {
-      console.log(`[Interceptor] Error detectado: ${err.status} - ${err.message}`);
+
+      console.error('🚨 [Interceptor] Error detectado:', err.status, err.message);
 
       return throwError(() => err);
     })
-  )
-
-  return next(req);
+  );
 };

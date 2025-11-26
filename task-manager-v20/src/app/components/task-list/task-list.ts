@@ -16,7 +16,7 @@ export class TaskList implements OnInit {
   isLoading = true;
 
   ngOnInit() {
-
+    this.loadTasks();
   }
 
   loadTasks() {

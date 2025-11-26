@@ -4,11 +4,12 @@ import { Observable } from 'rxjs';
 import { Task } from '../interfaces/task';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class TaskService {
-  private http = inject(HttpClient); // inject()
-  private apiUrl = 'https//jsonplaceholder.typicode.com/todos'; // 201
+  private http = inject(HttpClient);
+
+  private apiUrl = 'https://jsonplaceholder.typicode.com/todos';
 
   getTasks(): Observable<Task[]> {
     return this.http.get<Task[]>(`${this.apiUrl}?_limit=5`);
