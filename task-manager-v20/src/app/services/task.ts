@@ -8,7 +8,7 @@ import { Task } from '../interfaces/task';
 })
 export class TaskService {
   private http = inject(HttpClient); // inject()
-  private apiUrl = 'https//jsonplaceholder.typicode.com/todos';
+  private apiUrl = 'https//jsonplaceholder.typicode.com/todos'; // 201
 
   getTasks(): Observable<Task[]> {
     return this.http.get<Task[]>(`${this.apiUrl}?_limit=5`);
